@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { StyleSheet, Text, View, Image, Alert, TextInput, TouchableOpacity,ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Image, Alert, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha';
 import firebase from 'firebase/compat/app';
 import { Feather } from '@expo/vector-icons'
@@ -9,28 +9,48 @@ import FirebaseConfig from '../Firebase/FireBase';
 
 const Login = ({ navigation }) => {
     const [phoneNumber, setPhoneNumber] = useState('')
+    const [phoneNumberError, setPhoneNumberError] = useState(false)
     const [code, setCode] = useState('');
+    const [codeError, setCodeError] = useState(false)
     const [verficationId, setVerificationId] = useState(null)
     const recaptchaVerfier = useRef(null);
 
 
     const sendVerificaton = () => {
-       const phoneProvider = new firebase.auth.PhoneAuthProvider();
-       phoneProvider 
-            .verifyPhoneNumber(phoneNumber,recaptchaVerfier.current)
+        const phoneProvider = new firebase.auth.PhoneAuthProvider();
+        phoneProvider
+            .verifyPhoneNumber(phoneNumber, recaptchaVerfier.current)
             .then(setVerificationId);
-            setPhoneNumber('')
+        setPhoneNumber('')
     };
 
     const confirmCode = () => {
-       
-    const credentail = firebase.auth.PhoneAuthProvider.credential(
-        verficationId,
-        code
-    );
-    firebase.auth().signInWithCredential(credentail)
+        if (!phoneNumber && phoneNumber === "") {
+            setPhoneNumberError(true)
+            return false
 
-   
+        } else {
+            setPhoneNumberError(false)
+        }
+
+
+
+        if (!code && code === "") {
+            setCodeError(true)
+            return false
+
+        } else {
+            setCodeError(false)
+        }
+
+
+        const credentail = firebase.auth.PhoneAuthProvider.credential(
+            verficationId,
+            code
+        );
+        firebase.auth().signInWithCredential(credentail)
+
+
             .then(() => {
                 setCode("");
             })
@@ -38,37 +58,43 @@ const Login = ({ navigation }) => {
                 //show an alert when error
                 alert(error)
             })
-      navigation.navigate(
+        navigation.navigate(
             'Home'
         )
     }
 
     return (
-<ScrollView>
-        <View style={styles.container}>
-            <Image source={require('../assets/Logo.png')} style={styles.logoStyle} />
-            <Image source={require('../assets/login.jpg')} style={styles.loginStyle} />
+        <ScrollView>
+            <View style={styles.container}>
+                <Image source={require('../assets/Logo.png')} style={styles.logoStyle} />
+                <Image source={require('../assets/login.jpg')} style={styles.loginStyle} />
 
-            <View style={styles.container2}>
-                <TextInput style={styles.textInputStyle} placeholder='Mobile No.' keyboardType='phone-pad' onChangeText={setPhoneNumber} autoComplete='tel' />
-                <Feather name="users" size={30} style={styles.iconUser} color={"#adb5bd"} />
-                <TouchableOpacity style={styles.touchOtpStyle} onPress={sendVerificaton}><Text style={styles.touchOtpText}>Send OTP</Text></TouchableOpacity>
+                <View style={styles.container2}>
+                    <TextInput style={styles.textInputStyle} placeholder='Mobile No.' keyboardType='phone-pad' onChangeText={setPhoneNumber} autoComplete='tel' />
+                    <Feather name="users" size={30} style={styles.iconUser} color={"#adb5bd"} />
+                    <TouchableOpacity style={styles.touchOtpStyle}
+                        onPress={sendVerificaton}>
+                        <Text style={styles.touchOtpText}>Send OTP</Text>
+                    </TouchableOpacity>
+                </View>
+                {phoneNumberError ? <Text style={{ color: 'red' }}>Please enter mobile number</Text> : null}
+                <View style={styles.container3}>
+                    <TextInput style={styles.textInputStyle2}
+                        placeholder='Enter OTP' keyboardType='phone-pad'
+                        onChangeText={setCode} autoComplete='sms-otp' />
+                    <Foundation name="key" size={30} style={styles.iconUser} color={"#adb5bd"} />
+                </View>
+                {codeError ? <Text style={{ color: 'red' }}>Please enter OTP</Text> : null}
+                <TouchableOpacity style={styles.loginButtonStyle} onPress={confirmCode}>
+                    <Text style={styles.loginTextStyle}>Login</Text>
+                </TouchableOpacity>
+
+                <FirebaseRecaptchaVerifierModal
+                    ref={recaptchaVerfier}
+                    firebaseConfig={FirebaseConfig}
+                />
+
             </View>
-            <View style={styles.container3}>
-                <TextInput style={styles.textInputStyle2} placeholder='Enter OTP' keyboardType='phone-pad' onChangeText={setCode} />
-                <Foundation name="key" size={30} style={styles.iconUser} color={"#adb5bd"} />
-            </View>
-
-            <TouchableOpacity style={styles.loginButtonStyle} onPress={confirmCode}>
-                <Text style={styles.loginTextStyle}>Login</Text>
-            </TouchableOpacity>
-
-            <FirebaseRecaptchaVerifierModal
-                ref={recaptchaVerfier}
-                firebaseConfig={FirebaseConfig}
-            />
-
-</View>
         </ScrollView>
     )
 }

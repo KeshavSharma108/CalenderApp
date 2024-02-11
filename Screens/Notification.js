@@ -1,10 +1,14 @@
-import React from "react";
-import { View, StyleSheet, Text, TouchableOpacity ,Image} from "react-native"
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet, Text, TouchableOpacity, Image } from "react-native"
 import { AntDesign } from "@expo/vector-icons";
+import TimeDisplay from '../Component/Time';
 
 const Notification = ({ navigation }) => {
+
+
     return (
         <View style={Style.containerMain}>
+
             <View style={Style.notificationHeader}>
                 <Text style={Style.notificationText}>
                     Notifications
@@ -12,19 +16,20 @@ const Notification = ({ navigation }) => {
                 <TouchableOpacity style={{ width: 30, right: 240 }} onPress={() => navigation.goBack()}>
                     <AntDesign name="left" size={30} />
                 </TouchableOpacity>
+
             </View>
             <View style={Style.subContainer}>
-                <Image source={require('../assets/ALogo.jpg')}  style/>
-                <View style={{ left: 80, flex: 1, top: 15 }}>
+                <Image source={require('../assets/ALogo.jpg')} style={Style.imageStyle} />
+                <View style={Style.insideSubContainer}>
                     <Text style={{ fontSize: 18, }}> Abhishek scheduled a meeting</Text>
                     <Text style={{ fontSize: 15 }}> 25th December, 2023</Text>
                     <TouchableOpacity style={Style.touchDecline}>
-                        <Text style={{ color: '#fff' }}>Decline</Text>
+                        <Text style={{ color: '#fff' }} onPress={() => navigation.goBack()}>Decline</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={Style.touchAccept}>
                         <Text style={{ color: '#fff' }}>Accept</Text>
                     </TouchableOpacity>
-                    <Text style={{ color: 'grey', left:273,bottom:112}}>6:00 P.M</Text>
+                    <View style={{ color: 'grey', left: 268, bottom: 112 }}><TimeDisplay /></View>
                 </View>
             </View>
         </View>
@@ -59,6 +64,7 @@ const Style = StyleSheet.create({
         backgroundColor: '#fff',
         flexDirection: 'row',
 
+
     }, touchDecline: {
         height: 25,
         width: 100,
@@ -81,6 +87,7 @@ const Style = StyleSheet.create({
         left: 110,
         bottom: 30
 
-    }
+    }, insideSubContainer: { left: 30, flex: 1, top: 15 },
+    imageStyle: { height: 50, width: 50, borderRadius: 40, left: 20, top: 15 }
 })
 

@@ -61,7 +61,7 @@ const Home = ({ navigation }) => {
 
 
 
-            <TouchableOpacity style={Styles.plusButton}>
+            <TouchableOpacity style={Styles.plusButton} onPress={()=>navigation.navigate('AddMeeting')}>
                 <Text style={{ color: '#fff', fontSize: 50, fontWeight: '200', bottom: 5, right: 1.5 }}>+</Text>
             </TouchableOpacity>
 
