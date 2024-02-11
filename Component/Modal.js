@@ -6,19 +6,29 @@ import moment from "moment";
 
 const Modalfile = ({ onPress, visible }) => {
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+    const [isDatePickerVisible2, setDatePickerVisibility2]= useState(false)
     const [selectDate, setSelectDate] = useState()
+    const [selectDate2, setSelectDate2] = useState()
 
     const showDatePicker = () => {
         setDatePickerVisibility(true);
     };
-
+    const showDatePicker2 = () => {
+        setDatePickerVisibility2(true);
+    };
     const hideDatePicker = () => {
         setDatePickerVisibility(false);
     };
-
+    const hideDatePicker2 = () => {
+        setDatePickerVisibility2(false);
+    };
     const handleConfirm = date => {
         setSelectDate(date)
         hideDatePicker();
+    };
+    const handleConfirm2 = date2 => {
+        setSelectDate2(date2)
+        hideDatePicker2();
     };
     return (
         <Modal visible={visible} transparent={true}>
@@ -28,6 +38,12 @@ const Modalfile = ({ onPress, visible }) => {
                 mode="date"
                 onConfirm={handleConfirm}
                 onCancel={hideDatePicker}
+            />
+              <DateTimePicker
+                isVisible={isDatePickerVisible2}
+                mode="date"
+                onConfirm={handleConfirm2}
+                onCancel={hideDatePicker2}
             />
             <View style={Styles.modalContainerStyle}>
                 <View style={Styles.modalSubContainerStyle} >
@@ -57,8 +73,8 @@ const Modalfile = ({ onPress, visible }) => {
                         </View>
                         <View>
                             <Text style={Styles.contentText}>End Date</Text>
-                            <TouchableOpacity style={Styles.dateBox} onPress={showDatePicker}>
-                                <Text>End Date {selectDate && moment(selectDate).format('DD MMM YYYY')}</Text>
+                            <TouchableOpacity style={Styles.dateBox} onPress={showDatePicker2}>
+                                <Text>End Date {selectDate2 && moment(selectDate2).format('DD MMM YYYY')}</Text>
                             </TouchableOpacity>
 
                         </View>

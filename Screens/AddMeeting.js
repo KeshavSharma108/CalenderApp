@@ -9,9 +9,11 @@ import { MaterialIcons } from "@expo/vector-icons";
 
 const AddMeeting = ({ navigation, }) => {
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+    const [isDatePickerVisible2, setDatePickerVisibility2] = useState(false);
     const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
     const [isTimePickerVisible2, setTimePickerVisibility2] = useState(false);
     const [selectDate, setSelectDate] = useState()
+    const [selectDate2, setSelectDate2] = useState()
     const [selectTime, setSelectTime] = useState()
     const [selectTime2, setSelectTime2] = useState()
 
@@ -64,14 +66,24 @@ const AddMeeting = ({ navigation, }) => {
     const showDatePicker = () => {
         setDatePickerVisibility(true);
     };
+    const showDatePicker2 = () => {
+        setDatePickerVisibility2(true);
+    };
 
     const hideDatePicker = () => {
         setDatePickerVisibility(false);
+    };
+    const hideDatePicker2 = () => {
+        setDatePickerVisibility2(false);
     };
 
     const handleConfirm = date => {
         setSelectDate(date)
         hideDatePicker();
+    };
+    const handleConfirm2 = date2 => {
+        setSelectDate2(date2)
+        hideDatePicker2();
     };
     //For Time
     const showTimePicker = () => {
@@ -157,8 +169,8 @@ const AddMeeting = ({ navigation, }) => {
                             </Text>
 
                         </View>
-                        <TouchableOpacity style={Styles.dateBox} onPress={showDatePicker}>
-                            <Text>End Date {selectDate && moment(selectDate).format('DD MMM YYYY')}</Text>
+                        <TouchableOpacity style={Styles.dateBox} onPress={showDatePicker2}>
+                            <Text>End Date {selectDate2 && moment(selectDate2).format('DD MMM YYYY')}</Text>
                         </TouchableOpacity>
                         <View style={{ left: 240, }}>
                             <TouchableOpacity style={Styles.dateBox2} onPress={showTimePicker}>
