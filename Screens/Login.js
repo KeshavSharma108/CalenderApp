@@ -9,9 +9,9 @@ import FirebaseConfig from '../Firebase/FireBase';
 
 const Login = ({ navigation }) => {
     const [phoneNumber, setPhoneNumber] = useState('')
-    const [phoneNumberError, setPhoneNumberError] = useState(false)
+
     const [code, setCode] = useState('');
-    const [codeError, setCodeError] = useState(false)
+   
     const [verficationId, setVerificationId] = useState(null)
     const recaptchaVerfier = useRef(null);
 
@@ -25,23 +25,7 @@ const Login = ({ navigation }) => {
     };
 
     const confirmCode = () => {
-        if (!phoneNumber && phoneNumber === "") {
-            setPhoneNumberError(true)
-            return false
-
-        } else {
-            setPhoneNumberError(false)
-        }
-
-
-
-        if (!code && code === "") {
-            setCodeError(true)
-            return false
-
-        } else {
-            setCodeError(false)
-        }
+    
 
 
         const credentail = firebase.auth.PhoneAuthProvider.credential(
@@ -53,14 +37,15 @@ const Login = ({ navigation }) => {
 
             .then(() => {
                 setCode("");
+                navigation.navigate('Home')
             })
+            
             .catch((error) => {
                 //show an alert when error
                 alert(error)
             })
-        navigation.navigate(
-            'Home'
-        )
+
+
     }
 
     return (
@@ -77,14 +62,14 @@ const Login = ({ navigation }) => {
                         <Text style={styles.touchOtpText}>Send OTP</Text>
                     </TouchableOpacity>
                 </View>
-                {phoneNumberError ? <Text style={{ color: 'red' }}>Please enter mobile number</Text> : null}
+              
                 <View style={styles.container3}>
                     <TextInput style={styles.textInputStyle2}
                         placeholder='Enter OTP' keyboardType='phone-pad'
                         onChangeText={setCode} autoComplete='sms-otp' />
                     <Foundation name="key" size={30} style={styles.iconUser} color={"#adb5bd"} />
                 </View>
-                {codeError ? <Text style={{ color: 'red' }}>Please enter OTP</Text> : null}
+              
                 <TouchableOpacity style={styles.loginButtonStyle} onPress={confirmCode}>
                     <Text style={styles.loginTextStyle}>Login</Text>
                 </TouchableOpacity>
