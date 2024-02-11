@@ -53,14 +53,14 @@ const Login = ({ navigation }) => {
 
             .then(() => {
                 setCode("");
-               
+               navigation.navigate('Home')
             })
             
             .catch((error) => {
                 //show an alert when error
                 alert(error)
             })
-            navigation.navigate('Home')
+         
 
     }
 
