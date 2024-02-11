@@ -1,34 +1,36 @@
 import React, { useRef, useState } from 'react';
-import { StyleSheet, Text, View, Image, Alert, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, Alert, TextInput, TouchableOpacity,ScrollView } from 'react-native';
 import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha';
-import { firebasefile } from '../Firebase';
 import firebase from 'firebase/compat/app';
 import { Feather } from '@expo/vector-icons'
 import { Foundation } from '@expo/vector-icons';
+import FirebaseConfig from '../Firebase/FireBase';
 
 
 const Login = ({ navigation }) => {
-    const [PhoneNumber, setPhoneNumer] = useState('')
+    const [phoneNumber, setPhoneNumber] = useState('')
     const [code, setCode] = useState('');
     const [verficationId, setVerificationId] = useState(null)
     const recaptchaVerfier = useRef(null);
 
 
-    const sendVerficaton = () => {
-        const phoneProvider = new firebase.auth.PhoneAuthProvider();
-        phoneProvider
-            .verfiyPhoneNumber(PhoneNumber, recaptchaVerfier.current)
+    const sendVerificaton = () => {
+       const phoneProvider = new firebase.auth.PhoneAuthProvider();
+       phoneProvider 
+            .verifyPhoneNumber(phoneNumber,recaptchaVerfier.current)
             .then(setVerificationId);
-        PhoneNumber('')
+            setPhoneNumber('')
     };
 
     const confirmCode = () => {
-        const credentail = firebase.auth.PhoneAuthCredential.credentail(
-            verficationId,
-            code
-        )
+       
+    const credentail = firebase.auth.PhoneAuthProvider.credential(
+        verficationId,
+        code
+    );
+    firebase.auth().signInWithCredential(credentail)
 
-        firebase.auth().signInWithCredential(credentail)
+   
             .then(() => {
                 setCode("");
             })
@@ -36,31 +38,38 @@ const Login = ({ navigation }) => {
                 //show an alert when error
                 alert(error)
             })
-        Alert.alert(
-            'Login Success'
+      navigation.navigate(
+            'Home'
         )
     }
 
     return (
-
+<ScrollView>
         <View style={styles.container}>
             <Image source={require('../assets/Logo.png')} style={styles.logoStyle} />
             <Image source={require('../assets/login.jpg')} style={styles.loginStyle} />
 
             <View style={styles.container2}>
-                <TextInput style={styles.textInputStyle} placeholder='Mobile No.' keyboardType='number-pad' />
+                <TextInput style={styles.textInputStyle} placeholder='Mobile No.' keyboardType='phone-pad' onChangeText={setPhoneNumber} autoComplete='tel' />
                 <Feather name="users" size={30} style={styles.iconUser} color={"#adb5bd"} />
-                <TouchableOpacity style={styles.touchOtpStyle}><Text style={styles.touchOtpText}>Send OTP</Text></TouchableOpacity>
+                <TouchableOpacity style={styles.touchOtpStyle} onPress={sendVerificaton}><Text style={styles.touchOtpText}>Send OTP</Text></TouchableOpacity>
             </View>
             <View style={styles.container3}>
-                <TextInput style={styles.textInputStyle2} placeholder='Enter OTP' keyboardType='number-pad' />
+                <TextInput style={styles.textInputStyle2} placeholder='Enter OTP' keyboardType='phone-pad' onChangeText={setCode} />
                 <Foundation name="key" size={30} style={styles.iconUser} color={"#adb5bd"} />
             </View>
 
-            <TouchableOpacity style={styles.loginButtonStyle}>
+            <TouchableOpacity style={styles.loginButtonStyle} onPress={confirmCode}>
                 <Text style={styles.loginTextStyle}>Login</Text>
             </TouchableOpacity>
-        </View>
+
+            <FirebaseRecaptchaVerifierModal
+                ref={recaptchaVerfier}
+                firebaseConfig={FirebaseConfig}
+            />
+
+</View>
+        </ScrollView>
     )
 }
 
