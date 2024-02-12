@@ -9,9 +9,9 @@ import FirebaseConfig from '../Firebase/FireBase';
 
 const Login = ({ navigation }) => {
     const [phoneNumber, setPhoneNumber] = useState('')
-    const [phoneNumberError, setPhoneNumberError] = useState(false)
+    const [phoneNumberError, setPhoneNumberError] = useState()
     const [code, setCode] = useState('');
-    const [codeError, setCodeError] = useState(false)
+    const [codeError, setCodeError] = useState('')
     const [verficationId, setVerificationId] = useState(null)
     const recaptchaVerfier = useRef(null);
 
@@ -19,29 +19,17 @@ const Login = ({ navigation }) => {
     const sendVerificaton = () => {
         const phoneProvider = new firebase.auth.PhoneAuthProvider();
         phoneProvider
-            .verifyPhoneNumber(phoneNumber, recaptchaVerfier.current)
+            .verifyPhoneNumber(`+91${phoneNumber}`, recaptchaVerfier.current)
             .then(setVerificationId);
-        setPhoneNumber('')
     };
 
     const confirmCode = () => {
     
-        if (!phoneNumber && phoneNumber === "") {
-            setPhoneNumberError(true)
-            return false
-
-        } else {
-            setPhoneNumberError(false)
+        if (phoneNumber.length < 10 ) {
+            return setPhoneNumberError('Please enter valid mobile number')
         }
-
-
-
-        if (!code && code === "") {
-            setCodeError(true)
-            return false
-
-        } else {
-            setCodeError(false)
+        if (code.length < 6 ) {
+           return setCodeError('Please enter valid code')
         }
 
         const credentail = firebase.auth.PhoneAuthProvider.credential(
@@ -49,19 +37,15 @@ const Login = ({ navigation }) => {
             code
         );
         firebase.auth().signInWithCredential(credentail)
-
-
             .then(() => {
                 setCode("");
-               navigation.navigate('Home')
+              
             })
-            
             .catch((error) => {
                 //show an alert when error
-                alert(error)
+                alert('Error!', error)
             })
-         
-
+            navigation.navigate('Home')
     }
 
     return (
@@ -71,21 +55,26 @@ const Login = ({ navigation }) => {
                 <Image source={require('../assets/login.jpg')} style={styles.loginStyle} />
 
                 <View style={styles.container2}>
-                    <TextInput style={styles.textInputStyle} placeholder='Mobile No.' keyboardType='phone-pad' onChangeText={setPhoneNumber} autoComplete='tel' />
+                    <TextInput style={styles.textInputStyle} placeholder='Mobile No.' keyboardType='phone-pad'
+                     onChangeText={(text) => {
+                        setPhoneNumberError();
+                        setPhoneNumber(text);
+                        }} autoComplete='tel' maxLength={10} />
                     <Feather name="users" size={30} style={styles.iconUser} color={"#adb5bd"} />
                     <TouchableOpacity style={styles.touchOtpStyle}
                         onPress={sendVerificaton}>
                         <Text style={styles.touchOtpText}>Send OTP</Text>
                     </TouchableOpacity>
                 </View>
-                {phoneNumberError ? <Text style={{ color: 'red' }}>Please enter mobile number</Text> : null}
+                {phoneNumberError ? <Text style={{ color: 'red' }}>{phoneNumberError}</Text> : null}
                 <View style={styles.container3}>
                     <TextInput style={styles.textInputStyle2}
                         placeholder='Enter OTP' keyboardType='phone-pad'
-                        onChangeText={setCode} autoComplete='sms-otp' />
+                        onChangeText={(text)=>{setCode(text); setCodeError();}} 
+                        autoComplete='sms-otp' maxLength={6} />
                     <Foundation name="key" size={30} style={styles.iconUser} color={"#adb5bd"} />
                 </View>
-                {codeError ? <Text style={{ color: 'red' }}>Please enter OTP</Text> : null}
+                {codeError ? <Text style={{ color: 'red' }}>{codeError}</Text> : null}
                 <TouchableOpacity style={styles.loginButtonStyle} onPress={confirmCode}>
                     <Text style={styles.loginTextStyle}>Login</Text>
                 </TouchableOpacity>

@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import { View, TextInput, StyleSheet, Text, TouchableOpacity, ScrollView, FlatList } from "react-native";
-import { Entypo, Feather, FontAwesome6 } from "@expo/vector-icons";
+import { Entypo, Feather, FontAwesome6, AntDesign } from "@expo/vector-icons";
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment/moment";
-import { MaterialIcons } from "@expo/vector-icons";
 
-
-const AddMeeting = ({ navigation, }) => {
+const MeetingConfirm = ({ navigation, }) => {
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [isDatePickerVisible2, setDatePickerVisibility2] = useState(false);
     const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
@@ -17,50 +15,8 @@ const AddMeeting = ({ navigation, }) => {
     const [selectTime, setSelectTime] = useState()
     const [selectTime2, setSelectTime2] = useState()
 
-    //For Add Note
-    const [text, setText] = useState('');
-    const [isChecked, setIsChecked] = useState(false);
 
 
-
-    const addNoteCheck = (inputValue) => {
-        setText(inputValue);
-        if (inputValue.trim().length > 0) {
-            setIsChecked(true); // Set checkbox to true if input is not empty
-        } else {
-            setIsChecked(false);
-        }
-    }
-  
-
-    // For Search Box
-
-    const namesData = [
-        { id: 1, name: "Abhishek" },
-        { id: 2, name: "Vaibhav" },
-        { id: 3, name: "Keshav" },
-        { id: 4, name: "Alice" },
-        // Add more persons as needed
-    ];
-
-
-    const [searchText, setSearchText] = useState("");
-    const [searchResults, setSearchResults] = useState([]);
-
-    const handleInputChange = (text) => {
-        setSearchText(text);
-        // Filter names based on search text
-        const results = namesData.filter((name) =>
-            name.name.toLowerCase().includes(text.toLowerCase())
-        );
-        setSearchResults(results);
-    };
-
-
-    const handleSelectName = (name) => {
-        // Do something with the selected name
-        console.log('Selected name:', name);
-    };
 
     //For Date
     const showDatePicker = () => {
@@ -137,31 +93,23 @@ const AddMeeting = ({ navigation, }) => {
                 onCancel={hideTimePicker2}
             />
             <ScrollView>
+                <View style={Styles.ChevronDown}>
+                    <TouchableOpacity style={{ width: 50 }} onPress={() => navigation.navigate('Home')}>
+                        <AntDesign name={'left'} size={40} color={'grey'} />
+                    </TouchableOpacity>
+                </View>
 
-                <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <Entypo name="cross" size={50} style={Styles.cross} />
-                </TouchableOpacity>
-                <TouchableOpacity style={Styles.createButton} onPress={() => navigation.navigate('MeetingConfirm')}><Text style={{ color: 'white' }}>Create</Text></TouchableOpacity>
                 <View>
-                    <TextInput placeholder="Add Title" style={Styles.textinputHead} />
+                    <View style={Styles.textinputHead} ><Text style={Styles.Meeting}>Meeting</Text></View>
                 </View>
                 <View style={{ marginTop: 20, }}>
                     <Feather name="clock" size={30} style={{ left: 10 }} />
                     <Text style={{ fontSize: 20, left: 50, bottom: 30, }}>All Day</Text>
                     <View style={Styles.circle}>
-                    {isChecked ? 
-                        <MaterialIcons
-                            name= 'check' 
-                            size={24}
-                            color="white"
-                        /> : null }
-
-                        {isChecked ? <View style={{  height:27,width:27, backgroundColor:'#6a71cf',borderRadius:30,bottom:25.5,zIndex:-1,}}/> :null}
-                  
                     </View>
                     <View style={Styles.container2}>
                         <TouchableOpacity style={Styles.dateBox} onPress={showDatePicker}>
-                            <Text>{selectDate ? moment(selectDate).format('DD MMM YYYY'): 'Start Date'}</Text>
+                            <Text> {selectDate ? moment(selectDate).format('DD MMM YYYY'):'Start Date'}</Text>
                         </TouchableOpacity>
                         <View style={{ left: 70, marginTop: 5 }}>
                             <Text>
@@ -170,13 +118,13 @@ const AddMeeting = ({ navigation, }) => {
                             <Text>
                                 |
                             </Text>
-                            <Text style={{marginBottom:5}}>
+                            <Text style={{ marginBottom: 5 }}>
                                 |
                             </Text>
 
                         </View>
                         <TouchableOpacity style={Styles.dateBox} onPress={showDatePicker2}>
-                            <Text>{selectDate2 ? moment(selectDate2).format('DD MMM YYYY'): 'End Date'}</Text>
+                            <Text>{selectDate2 ? moment(selectDate2).format('DD MMM YYYY'):'End Date '}</Text>
                         </TouchableOpacity>
                         <View style={{ left: 240, }}>
                             <TouchableOpacity style={Styles.dateBox2} onPress={showTimePicker}>
@@ -189,52 +137,48 @@ const AddMeeting = ({ navigation, }) => {
                     </View>
                     <View style={Styles.container3}>
                         <FontAwesome6 name='bars-staggered' size={30} style={{ left: 10 }} />
-                        <Text style={{ fontSize: 20, left: 50, bottom: 30, }}>Add Note</Text>
-                        <TextInput style={Styles.NoteTextInput}
-                            multiline={true}
-                            onChangeText={addNoteCheck}
-                            value={text}
-                          />
+                        <Text style={Styles.NoNote}>No Note</Text>
                         <Feather name='users' size={30} style={{ left: 10 }} />
-                        <Text style={{ fontSize: 20, left: 50, bottom: 30, }}>Add People</Text>
-                        <View style={Styles.PeopleView}>
-                            <TextInput style={Styles.PeopleTextInput}
-                                placeholder={'Search people'}
-                                onChangeText={handleInputChange}
-                                value={searchText}
-                                
-                            />
-
-                        </View>
-
+                        <Text style={Styles.peopleText}> People:</Text>
                     </View>
+             <View style={Styles.PeopleContainer}>
+             
+                        <View style={Styles.PeopleSubContainer}>
+                            <Text >Abhishek</Text>
+                        </View>
+                        <View style={Styles.PeopleSubContainer}>
+                            <Text>Vaibhav</Text>
+                        </View>
+                    </View>
+             </View>
 
-                    <FlatList
-                        data={searchResults}
-                        keyExtractor={(item) => item.id.toString()}
-                        renderItem={({ item }) => (
-                            <TouchableOpacity onPress={() => handleSelectName(item.name)}>
-                                <View style={{flexDirection:'row'}}>
-                                    <View style={{flex:2}}>
-                                    <Text style={Styles.searchName}>{item.name}</Text>
-                                    </View>
-                              
-                                </View>
-                          
-                            </TouchableOpacity>
-                        )}
-                        ListEmptyComponent={<Text>No results found</Text>}
-                    />
-                </View>
+
+               
             </ScrollView>
         </View>
     )
 
 }
 
-export default AddMeeting
+export default MeetingConfirm
 
 const Styles = StyleSheet.create({
+    Meeting: {
+        fontSize: 30,
+        top: 40
+    },
+    ChevronDown: {
+        height: 60,
+        width: 40,
+        top: 15,
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+
+    },
+    peopleText:{ fontSize: 20, left: 50, bottom: 30, },
+    NoNote:{ fontSize: 20, left: 50, bottom: 30},
     textinputHead: {
         height: 100,
         fontSize: 30,
@@ -272,8 +216,8 @@ const Styles = StyleSheet.create({
         borderRadius: 20,
         left: 350,
         bottom: 55,
-     
-    
+
+
     },
     dateBox: {
         height: 40,
@@ -282,7 +226,6 @@ const Styles = StyleSheet.create({
         backgroundColor: '#fff',
         justifyContent: 'space-evenly',
         alignItems: 'center',
-        elevation: 5,
         marginTop: 2
 
     },
@@ -294,7 +237,7 @@ const Styles = StyleSheet.create({
         backgroundColor: '#fff',
         justifyContent: 'space-evenly',
         alignItems: 'center',
-        elevation: 5,
+
         bottom: 220
 
     },
@@ -306,10 +249,9 @@ const Styles = StyleSheet.create({
         bottom: 20
     },
     container3: {
-        height: 260,
+        height: 100,
         width: '100%',
-        borderBottomWidth: 1,
-        borderBottomColor: 'lightgrey'
+        borderBottomWidth:1
     },
     NoteTextInput: {
         height: 80,
@@ -320,8 +262,8 @@ const Styles = StyleSheet.create({
         borderColor: 'lightblue',
         bottom: 20,
         paddingLeft: 10,
-        paddingTop:2
-    
+        paddingTop: 2
+
 
 
     },
@@ -352,20 +294,35 @@ const Styles = StyleSheet.create({
         textAlign: 'center',
         elevation: 5
 
-    },container: {
+    }, container: {
         flexDirection: 'row',
         alignItems: 'center',
         padding: 10,
-      },
-      input: {
+    },
+    input: {
         flex: 1,
         height: 40,
         borderColor: 'gray',
         borderWidth: 1,
         marginRight: 10,
         paddingHorizontal: 10,
-      },
-      
-    
+    },
+    PeopleContainer:{height:80,width:'100%',flexDirection:'row',marginLeft:10,},
+    PeopleSubContainer: {
+        height: 40,
+        width:100,
+        justifyContent: 'center',
+        alignItems: 'center',
+        elevation: 5,
+        borderRadius: 20,
+        backgroundColor: '#fff',
+        marginBottom: 10,
+        left: 10,
+        marginTop:10,
+        marginLeft:10
+    },
+
+  
+
 
 })

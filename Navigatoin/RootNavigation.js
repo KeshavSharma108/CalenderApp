@@ -1,7 +1,7 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
-import { AddMeeting, History, Home, Login, Notification } from '../Screens';
+import { AddMeeting, History, Home, Login, MeetingConfirm, Notification } from '../Screens';
 
 
 
@@ -21,6 +21,8 @@ export default function RootNavigation() {
         <Stack.Screen name='Notification' component={Notification} />
         <Stack.Screen name='History' component={History} />
         <Stack.Screen name='AddMeeting' component={AddMeeting} />
+        <Stack.Screen name='MeetingConfirm' component={MeetingConfirm} />
+      
       </Stack.Navigator>
     </NavigationContainer>
   )

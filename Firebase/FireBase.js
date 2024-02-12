@@ -4,13 +4,13 @@ import 'firebase/compat/firestore'
 
 
  const FirebaseConfig ={
-  apiKey: "AIzaSyBOFkvYfeD-GngR7hCzuirTIcKzzR3iNcY",
-  authDomain: "calendar-427d2.firebaseapp.com",
-  projectId: "calendar-427d2",
-  storageBucket: "calendar-427d2.appspot.com",
-  messagingSenderId: "138636921158",
-  appId: "1:138636921158:web:47273c4e0f77b61d437d47",
-  measurementId: "G-EBEG60CK9T"
+  apiKey: "AIzaSyDla2PvPN73NDNGl6zmUlDHCZgZK_xKIi0",
+  authDomain: "calendar-c44fa.firebaseapp.com",
+  projectId: "calendar-c44fa",
+  storageBucket: "calendar-c44fa.appspot.com",
+  messagingSenderId: "814644687371",
+  appId: "1:814644687371:web:1eb90490cce7a0a2e18d0e",
+  measurementId: "G-R1L5V225J3"
 }
 
 

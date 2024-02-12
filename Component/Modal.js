@@ -62,7 +62,7 @@ const Modalfile = ({ onPress, visible }) => {
                             <Text style={Styles.contentText}>Start Date</Text>
                             <TouchableOpacity style={Styles.dateBox} onPress={showDatePicker}>
 
-                                <Text>Start Date {selectDate && moment(selectDate).format('DD MMM YYYY')}</Text>
+                                <Text>{selectDate ? moment(selectDate).format('DD MMM YYYY'):'Start Date'}</Text>
 
                             </TouchableOpacity>
 
@@ -74,7 +74,7 @@ const Modalfile = ({ onPress, visible }) => {
                         <View>
                             <Text style={Styles.contentText}>End Date</Text>
                             <TouchableOpacity style={Styles.dateBox} onPress={showDatePicker2}>
-                                <Text>End Date {selectDate2 && moment(selectDate2).format('DD MMM YYYY')}</Text>
+                                <Text>{selectDate2 ? moment(selectDate2).format('DD MMM YYYY'):'End Date'}</Text>
                             </TouchableOpacity>
 
                         </View>
