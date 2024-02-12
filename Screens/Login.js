@@ -45,7 +45,7 @@ const Login = ({ navigation }) => {
                 //show an alert when error
                 alert('Error!', error)
             })
-            navigation.navigate('Home')
+       
     }
 
     return (
