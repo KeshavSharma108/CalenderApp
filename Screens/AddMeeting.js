@@ -223,7 +223,7 @@ const AddMeeting = ({ navigation, }) => {
                           
                             </TouchableOpacity>
                         )}
-                        ListEmptyComponent={<Text>No results found</Text>}
+                       // ListEmptyComponent={<Text>No results found</Text>}
                     />
                 </View>
             </ScrollView>
@@ -303,7 +303,8 @@ const Styles = StyleSheet.create({
         width: '100%',
         borderBottomWidth: 1,
         borderBottomColor: 'lightgrey',
-        bottom: 20
+        bottom: 20,
+        paddingLeft:10
     },
     container3: {
         height: 260,
