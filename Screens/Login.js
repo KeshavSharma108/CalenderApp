@@ -44,7 +44,7 @@ const Login = ({ navigation }) => {
             })
             .catch((error) => {
                 //show an alert when error
-                Alert.alert('Error!', error)
+                Alert.alert('Error!', 'otp is incorrect. Please check again.');
             })
           
     }
@@ -67,7 +67,7 @@ const Login = ({ navigation }) => {
                         <Text style={styles.touchOtpText}>Send OTP</Text>
                     </TouchableOpacity>
                 </View>
-                <View style>
+                <View style={{right:70}}>
                 {phoneNumberError ? <Text style={{ color: 'red' }}>{phoneNumberError}</Text> : null}
                 </View>
               
@@ -78,7 +78,9 @@ const Login = ({ navigation }) => {
                         autoComplete='sms-otp' maxLength={6} />
                     <Foundation name="key" size={30} style={styles.iconUser} color={"#adb5bd"} />
                 </View>
+                <View style={{right:95}}>
                 {codeError ? <Text style={{ color: 'red' }}>{codeError}</Text> : null}
+                </View>
                 <TouchableOpacity style={styles.loginButtonStyle} onPress={confirmCode}>
                     <Text style={styles.loginTextStyle}>Login</Text>
                 </TouchableOpacity>
