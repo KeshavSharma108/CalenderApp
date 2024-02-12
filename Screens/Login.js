@@ -39,12 +39,14 @@ const Login = ({ navigation }) => {
         firebase.auth().signInWithCredential(credentail)
             .then(() => {
                 setCode("");
-               navigation.navigate('Home')
+                navigation.navigate('Home')
+              
             })
             .catch((error) => {
                 //show an alert when error
-                alert('Error!', error)
+                Alert.alert('Error!', error)
             })
+          
     }
 
     return (
@@ -65,7 +67,10 @@ const Login = ({ navigation }) => {
                         <Text style={styles.touchOtpText}>Send OTP</Text>
                     </TouchableOpacity>
                 </View>
+                <View style>
                 {phoneNumberError ? <Text style={{ color: 'red' }}>{phoneNumberError}</Text> : null}
+                </View>
+              
                 <View style={styles.container3}>
                     <TextInput style={styles.textInputStyle2}
                         placeholder='Enter OTP' keyboardType='phone-pad'

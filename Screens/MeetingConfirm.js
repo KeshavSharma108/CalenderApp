@@ -6,92 +6,11 @@ import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment/moment";
 
 const MeetingConfirm = ({ navigation, }) => {
-    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-    const [isDatePickerVisible2, setDatePickerVisibility2] = useState(false);
-    const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
-    const [isTimePickerVisible2, setTimePickerVisibility2] = useState(false);
-    const [selectDate, setSelectDate] = useState()
-    const [selectDate2, setSelectDate2] = useState()
-    const [selectTime, setSelectTime] = useState()
-    const [selectTime2, setSelectTime2] = useState()
-
-
-
-
-    //For Date
-    const showDatePicker = () => {
-        setDatePickerVisibility(true);
-    };
-    const showDatePicker2 = () => {
-        setDatePickerVisibility2(true);
-    };
-
-    const hideDatePicker = () => {
-        setDatePickerVisibility(false);
-    };
-    const hideDatePicker2 = () => {
-        setDatePickerVisibility2(false);
-    };
-
-    const handleConfirm = date => {
-        setSelectDate(date)
-        hideDatePicker();
-    };
-    const handleConfirm2 = date2 => {
-        setSelectDate2(date2)
-        hideDatePicker2();
-    };
-    //For Time
-    const showTimePicker = () => {
-        setTimePickerVisibility(true);
-    };
-    const showTimePicker2 = () => {
-        setTimePickerVisibility2(true);
-    };
-
-    const hideTimePicker = () => {
-        setTimePickerVisibility(false);
-
-    };
-    const hideTimePicker2 = () => {
-        setTimePickerVisibility2(false);
-    }
-
-    const timeConfirm = time => {
-        setSelectTime(time)
-        hideTimePicker();
-    };
-    const timeConfirm2 = time2 => {
-        setSelectTime2(time2)
-        hideTimePicker2();
-    };
+   
     return (
         <View style={Styles.mainContainer}>
 
-            <DateTimePicker
-                isVisible={isDatePickerVisible}
-                mode="date"
-                onConfirm={handleConfirm}
-                onCancel={hideDatePicker}
-            />
-            <DateTimePicker
-                isVisible={isDatePickerVisible2}
-                mode="date"
-                onConfirm={handleConfirm2}
-                onCancel={hideDatePicker2}
-            />
-            <DateTimePicker
-                isVisible={isTimePickerVisible}
-                mode="time"
-                onConfirm={timeConfirm}
-                onCancel={hideTimePicker}
-            />
-            <DateTimePicker
-                isVisible={isTimePickerVisible2}
-                mode="time"
-                onConfirm={timeConfirm2}
-                onCancel={hideTimePicker2}
-            />
+      
             <ScrollView>
                 <View style={Styles.ChevronDown}>
                     <TouchableOpacity style={{ width: 50 }} onPress={() => navigation.navigate('Home')}>
@@ -108,8 +27,8 @@ const MeetingConfirm = ({ navigation, }) => {
                     <View style={Styles.circle}>
                     </View>
                     <View style={Styles.container2}>
-                        <TouchableOpacity style={Styles.dateBox} onPress={showDatePicker}>
-                            <Text> {selectDate ? moment(selectDate).format('DD MMM YYYY'):'Start Date'}</Text>
+                        <TouchableOpacity style={Styles.dateBox}>
+                            <Text>Sat, 24 Nov 2023</Text>
                         </TouchableOpacity>
                         <View style={{ left: 70, marginTop: 5 }}>
                             <Text>
@@ -123,15 +42,15 @@ const MeetingConfirm = ({ navigation, }) => {
                             </Text>
 
                         </View>
-                        <TouchableOpacity style={Styles.dateBox} onPress={showDatePicker2}>
-                            <Text>{selectDate2 ? moment(selectDate2).format('DD MMM YYYY'):'End Date '}</Text>
+                        <TouchableOpacity style={Styles.dateBox} >
+                            <Text>Sat, 24 Nov 2023</Text>
                         </TouchableOpacity>
                         <View style={{ left: 240, }}>
-                            <TouchableOpacity style={Styles.dateBox2} onPress={showTimePicker}>
-                                <Text> {selectTime ? moment(selectTime).format('HH:mm a'):'Time'}</Text>
+                            <TouchableOpacity style={Styles.dateBox2} >
+                                <Text> 05:12</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={Styles.dateBox2} onPress={showTimePicker2} >
-                                <Text>{selectTime2 ? moment(selectTime2).format('HH:mm a'):'Time'}</Text>
+                            <TouchableOpacity style={Styles.dateBox2}  >
+                                <Text>12:30</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
