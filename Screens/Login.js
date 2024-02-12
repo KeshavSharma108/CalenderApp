@@ -39,13 +39,12 @@ const Login = ({ navigation }) => {
         firebase.auth().signInWithCredential(credentail)
             .then(() => {
                 setCode("");
-              
+               navigation.navigate('Home')
             })
             .catch((error) => {
                 //show an alert when error
                 alert('Error!', error)
             })
-       
     }
 
     return (
